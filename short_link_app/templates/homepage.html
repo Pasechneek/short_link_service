@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Origin link</th>
+                <th scope="col">Short link</th>
+                <th scope="col">Count</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for item in queries %}
+
+            <tr class="table-primary">
+                <td>
+                    <div class="table-primary text-break text-wrap" style="width: 100%;">{{ item.origin_link }}</div>
+                </td>
+                <td>
+                    <a href="{% url 'short_link_redirect' item.short_link %} " target="_blank">
+                        https://localhost:8001{% url 'short_link_redirect' item.short_link %}</a>
+                </td>
+                <td>{{ item.count }}</td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+

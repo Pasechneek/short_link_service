@@ -1,0 +1,12 @@
+.idea/*
+venv/*
+data/*
+venv/
+/venv/
+res.html
+link_app/__pycache__/
+__pycache__/*
+short_link_app/migrations/__pycache__/
+.env
+.project
+

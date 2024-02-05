@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <p>The origin link is: <a href="{{ the_origin_link }}" target="_blank">{{ the_origin_link.url }}</a></p>
+        <p>and short link now: <a href="{{ absolute_short_link }} " target="_blank">{{ absolute_short_link }}</a></p>
+    </div>
+{% endblock %}

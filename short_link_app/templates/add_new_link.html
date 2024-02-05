@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <form class="row g-3" action="{% url 'add_new_link' %}" method="post">
+        {% csrf_token %}
+        <div class="row-form-errors"{{ form.non_field_errors }}></div>
+        <div class="col-auto">
+            {{ form.as_p }}
+
+            {% if messages %}
+                <ul class="list-group">
+                    {% for message in messages %}
+                        <li class="list-group-item list-group-item-danger">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Get short link!</button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

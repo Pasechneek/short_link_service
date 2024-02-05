@@ -1,0 +1,70 @@
+version: "3.9"
+
+volumes:
+  db_data:
+  app_media:
+  app_static:
+   
+services:
+  nginx:
+    image: nginx:1.22.1
+    working_dir:
+      /root/nginx
+    ports:
+      - "81:80"
+    volumes:
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - app_static:/static:ro
+      - app_media:/media:ro
+    environment:
+      - NG_HOST=0.0.0.0
+      - NG_PORT=81
+    env_file:
+      - ./.env
+    networks:
+      - backend
+    depends_on:
+      - db
+      - web
+    command: [nginx-debug, '-g', 'daemon off;']
+
+  db:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - backend
+
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    volumes:
+      - app_media:/app/media
+      - app_static:/app/static_root
+      - ./:/web
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    networks:
+      - backend
+    ports:
+      - "8001:8001"
+    expose:
+      - "8001"
+
+networks:
+    backend:

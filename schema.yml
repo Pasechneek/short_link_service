@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: Short link service
+  version: 1.0.0
+  description: short link service
+paths: {}
+components: {}
